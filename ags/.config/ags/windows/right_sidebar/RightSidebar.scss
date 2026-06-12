@@ -1,0 +1,81 @@
+window#RightSidebar {
+  background-color: transparent;
+
+  .SidebarContainer {
+    background-color: rgba(10, 10, 14, 0.4);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 26px;
+    padding: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+  }
+
+  .SidebarCard {
+    background-color: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 15px;
+  }
+
+  .SystemScale {
+    trough {
+      min-height: 14px;
+      border-radius: 14px;
+      background-color: rgba(255, 255, 255, 0.1);
+
+      highlight {
+        border-radius: 14px;
+      }
+    }
+
+    slider {
+      min-width: 18px;
+      min-height: 18px;
+      margin: -2px 0;
+      border-radius: 50%;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+      transition: transform 0.2s ease;
+
+      &:hover {
+        transform: scale(1.2);
+        background-color: #f0f0f0;
+      }
+    }
+
+    &.VolumeScale highlight {
+      background-color: #61afef;
+    }
+    &.BrightnessScale highlight {
+      background-color: #e5c07b;
+    }
+  }
+
+  .SidebarBtn {
+    background-color: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    min-height: 38px;
+    min-width: 38px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  .PowerBtn {
+    background-color: rgba(224, 108, 117, 0.15);
+    border: 1px solid rgba(224, 108, 117, 0.3);
+    border-radius: 14px;
+    min-height: 45px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: #e06c75;
+      box-shadow: 0 0 20px rgba(224, 108, 117, 0.4);
+    }
+  }
+}

@@ -1,0 +1,19 @@
+@import "./theme";
+
+@import "./windows/bar/Bar";
+@import "./windows/left_sidebar/LeftSidebar";
+@import "./windows/right_sidebar/RightSidebar";
+@import "./windows/osd/OSD";
+@import "./windows/notification_popups/NotificationPopups";
+@import "./widgets/Notification/Notification";
+@import "./windows/crosshair/Crosshair";
+@import "./windows/launcher/Launcher";
+@import "./widgets/MediaPlayer/MediaPlayer";
+
+button:focus {
+  outline: none;
+}
+* {
+  all: unset;
+  font-family: "JetBrainsMono Nerd Font", "Font Awesome 7 Free", sans-serif;
+}

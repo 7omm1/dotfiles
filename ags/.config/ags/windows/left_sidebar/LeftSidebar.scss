@@ -1,0 +1,137 @@
+// --- VARIABLES LOCALES (Las variables $bg1, $accent, etc. llegan solas desde style.scss) ---
+$bg-dark: $bg1;
+$bg-card: $bg2;
+$fg: $fg1;
+$fg-dim: $fg2;
+$border: rgba($accent, 0.3);
+$accent-dim: rgba($accent, 0.15);
+$hover: rgba($accent, 0.1);
+
+window#LeftSidebar {
+  background-color: transparent;
+
+  .sidebar {
+    background-color: $bg-dark;
+    color: $fg;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 20px;
+    border: 1px solid $border;
+    box-shadow: 0 0 15px rgba($accent, 0.15);
+    // --- INFO CLIMA ---
+    .WeatherInfo {
+      background-color: $bg-card;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 20px;
+      border: 1px solid transparent;
+      transition: all 0.3s;
+
+      &:hover {
+        border: 1px solid $accent;
+        box-shadow: 0 0 10px $accent-dim;
+      }
+
+      .WeatherIcon {
+        color: $accent;
+        text-shadow: 0 0 15px $accent-dim;
+        font-size: 48px;
+        margin-bottom: 5px;
+      }
+      .WeatherTemp {
+        font-weight: 900;
+        color: $fg;
+        font-size: 32px;
+      }
+      .WeatherDesc {
+        color: $bg-dark;
+        background-color: $accent;
+        font-weight: bold;
+        border-radius: 20px;
+        padding: 4px 12px;
+        margin-top: 5px;
+      }
+    }
+
+    // --- CALENDARIO ---
+    .CalendarBox {
+      background-color: $bg-card;
+      border-radius: 12px;
+      padding: 10px;
+
+      calendar {
+        background-color: transparent;
+        color: $fg;
+        border: none;
+        padding: 2px;
+
+        // Cabecera (Mes y Año)
+        > header {
+          background: transparent;
+          color: $accent;
+          font-weight: 900;
+          border: none;
+          margin-bottom: 10px;
+
+          button {
+            padding: 5px;
+            color: $fg-dim;
+            border-radius: 50%;
+            &:hover {
+              color: $accent;
+              background-color: $hover;
+            }
+          }
+        }
+
+        // Grilla de días
+        > grid {
+          // Nombres de los días (Lun, Mar...)
+          > label.day-name {
+            color: $fg-dim;
+            font-size: 11px;
+            font-weight: bold;
+            padding-bottom: 5px;
+            text-transform: uppercase;
+          }
+
+          // Números de los días
+          > label.day-number {
+            color: $fg;
+            font-family: $font1;
+            font-size: 13px;
+            padding: 0;
+            min-width: 32px;
+            min-height: 32px;
+            border-radius: 50%;
+            margin: 1px;
+
+            &:hover {
+              background-color: $hover;
+            }
+
+            // --- ESTO MARCA EL DÍA DE HOY ---
+            &.today {
+              background-color: $accent;
+              color: $bg-dark;
+              font-weight: 900;
+              box-shadow: 0 0 10px $accent;
+            }
+
+            // Días de otros meses
+            &.other-month {
+              color: rgba($fg, 0.2);
+              opacity: 0.5;
+            }
+
+            // Día seleccionado con click
+            &:selected {
+              background-color: rgba($accent, 0.3);
+              color: $fg;
+            }
+          }
+        }
+      }
+    }
+  }
+}

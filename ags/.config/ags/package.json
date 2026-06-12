@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "ags": "github:aylur/ags",
+    "fuse.js": "^7.3.0",
+    "gnim": "latest"
+  },
+  "prettier": {
+    "semi": false,
+    "tabWidth": 2
+  }
+}

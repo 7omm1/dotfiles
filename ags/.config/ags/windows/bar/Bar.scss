@@ -1,0 +1,70 @@
+window#Bar {
+  background-color: transparent;
+}
+
+// Logo button (opens wofi)
+button.logo-hover label,
+button:hover > label[label=""] {
+  color: white !important;
+  text-shadow: 0 0 12px rgba(97, 175, 239, 0.8);
+}
+
+.Workspaces {
+  button {
+    all: unset;
+    padding: 0 3px;
+
+    .Circle {
+      min-width: 12px;
+      min-height: 8px;
+      border-radius: 4px;
+      background-color: rgba(255, 255, 255, 0.15);
+      transition: all 0.2s;
+    }
+
+    &:hover .Circle {
+      background-color: #61afef;
+      box-shadow: 0 0 5px #61afef;
+    }
+
+    &.occupied .Circle {
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    &.focused .Circle {
+      background-color: #61afef;
+      min-width: 32px;
+      opacity: 1;
+      box-shadow: 0 0 8px rgba(97, 175, 239, 0.6);
+    }
+  }
+}
+
+.SidebarToggle,
+.ClockBtn {
+  all: unset;
+  border-radius: 10px;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.SidebarToggle {
+  padding: 4px 12px;
+  background-color: white;
+  color: black;
+}
+
+.ClockBtn {
+  padding: 2px 10px;
+  color: white;
+}
+
+.Weather {
+  background-color: transparent;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}

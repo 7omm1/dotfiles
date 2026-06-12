@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "ags/gtk4",
+    "lib": [
+      "ES2023"
+    ],
+    "module": "ES2022",
+    "moduleResolution": "Bundler",
+    "paths": {
+      "@assets/*": [
+        "./assets/*"
+      ],
+      "@common/*": [
+        "./common/*"
+      ],
+      "@utils/*": [
+        "./utils/*"
+      ],
+      "@widgets/*": [
+        "./widgets/*"
+      ],
+      "@windows/*": [
+        "./windows/*"
+      ]
+    },
+    "strict": true,
+    "target": "ES2020"
+  }
+}
