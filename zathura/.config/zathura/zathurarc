@@ -1,0 +1,23 @@
+# --- TRANSPARENCIA TOTAL DEL PDF ---
+
+# 1. Activar el recoloreado por defecto
+set recolor                     "true"
+
+# 2. Hacer que el "blanco" del papel sea TOTALMENTE transparente
+# El formato es R G B A. El último 0 es la clave.
+set recolor-lightcolor          "rgba(0, 0, 0, 0)"
+
+# 3. Hacer que el texto sea visible (Blanco o tu color de acento)
+# Si tu fondo es oscuro, el texto debe ser claro.
+set recolor-darkcolor           "#ffffff" 
+# O si prefieres texto rojo neón: "#ff3c5e"
+
+# --- FONDO DE LA VENTANA ---
+set default-bg                  "rgba(0, 0, 0, 0.5)"
+
+# --- AJUSTES DE RENDERIZADO ---
+# Esto ayuda a que las imágenes dentro del PDF no se inviertan de color extrañamente
+set recolor-keep-image-data     "true"
+
+# --- ATAJO ---
+# Si alguna vez ves un PDF raro, pulsa Ctrl+r para desactivar esto y verlo normal.
