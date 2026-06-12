@@ -1,0 +1,17 @@
+[opener]
+edit = [ { run = 'nvim "$@"', block = true, desc = "Neovim" } ]
+# imv es ligero y respeta las reglas de Hyprland
+image = [ { run = 'imv "$@"', orphan = true, desc = "Ver Imagen" } ]
+# mpv con pseudo-gui permite ver carátulas de audio y videos en ventana
+media = [ { run = 'mpv --player-operation-mode=pseudo-gui "$@"', orphan = true, desc = "MPV" } ]
+pdf = [ { run = 'zathura "$@"', orphan = true, desc = "Zathura" } ]
+
+[open]
+rules = [
+    { url = "*.{sh,py,json,ts,tsx,js,lua,md,txt,conf}", use = "edit" },
+    { mime = "image/*", use = "image" },
+    { mime = "video/*", use = "media" },
+    { mime = "audio/*", use = "media" },
+    { mime = "application/pdf", use = "pdf" },
+    { url = "*", use = "edit" }
+]
