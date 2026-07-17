@@ -70,9 +70,35 @@ function Workspaces() {
             if (wsList && wsList.find(w => w.id === id)) return "occupied"
             return "empty"
         })
-        return <button onClicked={() => hypr.dispatch("workspace", String(id))} cssClasses={createComputed(() => [state()])}>
+        
+        return <button 
+            cssClasses={createComputed(() => [state()])}
+            css="cursor: pointer;"
+            $={(btn: Gtk.Button) => {
+                // Controlador de gestos infalible para GTK4
+                const gesture = new Gtk.GestureClick()
+                gesture.set_button(1) // Escucha específicamente el clic izquierdo
+                
+                gesture.connect("pressed", () => {
+                    // 1. Intentamos el método nativo de Astal Hyprland
+                    try {
+                        hypr.dispatch("workspace", String(id))
+                    } catch (e) {
+                        console.error("Fallo el dispatch nativo", e)
+                    }
+                    
+                    // 2. Failsafe: Forzamos la terminal directamente
+                    execAsync(["bash", "-c", `hyprctl dispatch workspace ${id}`]).catch(() => {})
+                    
+                    // Le decimos a GTK que el clic ya fue procesado
+                    gesture.set_state(Gtk.EventSequenceState.CLAIMED)
+                })
+                
+                btn.add_controller(gesture)
+            }}
+        >
             <box cssClasses={["Circle"]} />
-          </button>
+        </button>
       })}
   </box>
 }
@@ -129,7 +155,6 @@ function SysTray() {
     return <box spacing={4} css="background: rgba(255,255,255,0.05); padding: 2px 8px; border-radius: 10px; min-height: 28px;" valign={Gtk.Align.CENTER}>
         <For each={items}>
             {(item: AstalTray.TrayItem) => {
-                // Creamos el popover fuera del JSX para poder referenciarlo
                 let popover: Gtk.PopoverMenu | null = null
 
                 return <button
@@ -137,13 +162,11 @@ function SysTray() {
                     valign={Gtk.Align.CENTER}
                     css="background: transparent; border: none; padding: 3px 5px; border-radius: 8px;"
                     $={(btn: Gtk.Button) => {
-                        // Crear PopoverMenu y anclarlo al botón
                         popover = new Gtk.PopoverMenu()
                         popover.set_parent(btn)
                         popover.set_has_arrow(false)
                         popover.set_position(Gtk.PositionType.BOTTOM)
 
-                        // Función que sincroniza el modelo y el grupo de acciones
                         const syncMenu = () => {
                             if (!popover) return
                             const model = item.get_menu_model?.() ?? (item as any).menuModel
@@ -156,20 +179,16 @@ function SysTray() {
                         item.connect("notify::menu-model", syncMenu)
                         item.connect("notify::action-group", syncMenu)
 
-                        // GestureClick que escucha todos los botones del ratón
                         const gesture = new Gtk.GestureClick()
                         gesture.set_button(0)
 
                         gesture.connect("pressed", (_g, _n, x, y) => {
                             const btn_pressed = gesture.get_current_button()
                             if (btn_pressed === 1) {
-                                // Click izquierdo: activar la app
                                 try { item.activate(Math.round(x), Math.round(y)) } catch {}
                                 gesture.set_state(Gtk.EventSequenceState.CLAIMED)
                             } else if (btn_pressed === 3) {
-                                // Click derecho: abrir menú contextual
                                 if (popover) {
-                                    // Posicionar el popover donde está el cursor
                                     const rect = new Gdk.Rectangle()
                                     rect.x = Math.round(x)
                                     rect.y = Math.round(y)
@@ -184,7 +203,6 @@ function SysTray() {
 
                         btn.add_controller(gesture)
 
-                        // Hover effect
                         const motionCtrl = new Gtk.EventControllerMotion()
                         motionCtrl.connect("enter", () => btn.set_css_classes(["tray-btn-hover"]))
                         motionCtrl.connect("leave", () => btn.set_css_classes([]))
@@ -201,7 +219,6 @@ function SysTray() {
             }}
         </For>
 
-        {/* Icono placeholder cuando no hay apps en el tray */}
         <label
             visible={items.as((i: AstalTray.TrayItem[]) => i.length === 0)}
             label="󰍜"
@@ -235,16 +252,14 @@ export default function Bar(monitor: Gdk.Monitor) {
                     const gesture = new Gtk.GestureClick()
                     gesture.set_button(1)
                     gesture.connect("pressed", (_g: Gtk.GestureClick, _n: number, x: number, y: number) => {
-                        // Obtener la posición absoluta del botón en pantalla
                         const native = self.get_native()
                         if (!native) { execAsync(["wofi", "--show", "drun"]).catch(() => {}); return }
                         const [ok, wx, wy] = (self as any).translate_coordinates(native, 0, 0)
                         const allocation = self.get_allocation()
-                        // Lanzar wofi con posición justo debajo del icono
-                        // Calculamos: posición X centrada en el botón, Y = altura de la barra + margen
-                        const barHeight = 46 // aprox altura de la barra
+                        
+                        const barHeight = 46 
                         const xPos = Math.round(wx)
-                        const yPos = barHeight + 20 // debajo de la barra
+                        const yPos = barHeight + 20 
                         execAsync([
                             "bash", "-c",
                             `wofi --show drun --xoffset=${xPos} --yoffset=${yPos} --width=300 --height=400`
@@ -254,7 +269,7 @@ export default function Bar(monitor: Gdk.Monitor) {
                         gesture.set_state(Gtk.EventSequenceState.CLAIMED)
                     })
                     self.add_controller(gesture)
-                    // Hover effect
+                    
                     const motion = new Gtk.EventControllerMotion()
                     motion.connect("enter", () => (self as any).set_css_classes(["logo-hover"]))
                     motion.connect("leave", () => (self as any).set_css_classes([]))
