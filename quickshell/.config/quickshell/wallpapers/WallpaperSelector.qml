@@ -32,9 +32,9 @@ Scope {
             WlrLayershell.layer: WlrLayer.Overlay
             WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
             anchors.top:true; anchors.bottom:true; anchors.left:true; anchors.right:true
-
+            
             MouseArea { anchors.fill:parent; onClicked: WallpaperState.hide(); z:-1 }
-
+            
             Rectangle {
                 anchors.centerIn: parent
                 width: 720; height: 500
@@ -42,7 +42,6 @@ Scope {
                 radius: Theme.panelR
                 border.color: Theme.borderFocus; border.width: 1
                 clip: true
-
                 transform: Translate {
                     y: WallpaperState.visible ? 0 : 50
                     Behavior on y { NumberAnimation { duration: 350; easing.type: Easing.OutBack } }
@@ -51,28 +50,24 @@ Scope {
                 Behavior on scale { NumberAnimation { duration: 350; easing.type: Easing.OutBack } }
                 opacity: WallpaperState.visible ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
-
+                
                 ColumnLayout {
                     anchors { fill: parent; margins: 20 }
                     spacing: 16
-
                     Text {
-                        text: "󰸉 Fondos de Pantalla"
+                        text: "  Fondos de Pantalla"
                         color: Theme.fg; font.family: Theme.font; font.pixelSize: 20; font.bold: true
                     }
-
                     Flickable {
                         Layout.fillWidth: true; Layout.fillHeight: true
                         contentHeight: grid.implicitHeight
                         boundsBehavior: Flickable.StopAtBounds
                         clip: true
-
                         Grid {
                             id: grid
                             width: parent.width
                             columns: 3
                             spacing: 14
-
                             Repeater {
                                 model: root.wallpapers
                                 Rectangle {
@@ -85,15 +80,13 @@ Scope {
                                     border.color: wma.containsMouse ? Theme.accent : "transparent"
                                     border.width: 2
                                     
-                                    clip: true // <-- ESTO es el secreto para redondear las imágenes de adentro sin usar shaders
-
+                                    clip: true
                                     scale: wma.pressed ? 0.95 : (wma.containsMouse ? 1.05 : 1.0)
                                     Behavior on scale { NumberAnimation { duration: 200; easing.type: Easing.OutBack } }
-
+                                    
                                     Image {
                                         visible: !parent.isVideo
                                         anchors.fill: parent
-                                        // Si es video, le mandamos texto vacío para que no tire error intentando decodificarlo
                                         source: parent.isVideo ? "" : "file://" + modelData
                                         fillMode: Image.PreserveAspectCrop
                                         smooth: true
@@ -105,34 +98,32 @@ Scope {
                                         color: Qt.rgba(0,0,0, 0.4)
                                         Text {
                                             anchors.centerIn: parent
-                                            text: "󰕧\nVideo"
+                                            text: " \nVideo"
                                             color: Theme.fgMute
                                             font.family: Theme.font
                                             font.pixelSize: 24
                                             horizontalAlignment: Text.AlignHCenter
                                         }
                                     }
-
+                                    
                                     MouseArea {
                                         id: wma
                                         anchors.fill: parent
                                         hoverEnabled: true
                                         onClicked: {
-                                            const p = Qt.createQmlObject('import Quickshell.Io; Process {}', root);
                                             if (parent.isVideo) {
-                                                p.command = [
-                                                    "bash", "-c", 
-                                                    "pkill swww; pkill mpvpaper; " + 
-                                                    "mpvpaper -o '--loop --no-audio' '*' '" + modelData + "' & " +
-                                                    "ffmpeg -y -i '" + modelData + "' -vframes 1 /tmp/wal_frame.jpg && wal -i /tmp/wal_frame.jpg -n"
-                                                ];
-                                            } else {
-                                                p.command = [
-                                                    "bash", "-c", 
-                                                    "pkill mpvpaper; " +
-                                                    "swww img '" + modelData + "' --transition-type wipe && wal -i '" + modelData + "' -n"
-                                                ];
+                                                console.log("Ignorando video de momento.");
+                                                return; 
                                             }
+
+                                            const p = Qt.createQmlObject('import Quickshell.Io; Process {}', root);
+                                            
+                                            p.command = [
+                                                "bash", "-c", 
+                                                "awww img '" + modelData + "' --transition-type fade --transition-duration 0.3 && " +
+                                                "wal -i '" + modelData + "' -n"
+                                            ];
+                                            
                                             p.running = true;
                                             WallpaperState.hide();
                                         }

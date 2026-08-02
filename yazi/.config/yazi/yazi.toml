@@ -4,14 +4,33 @@ edit = [ { run = 'nvim "$@"', block = true, desc = "Neovim" } ]
 image = [ { run = 'imv "$@"', orphan = true, desc = "Ver Imagen" } ]
 # mpv con pseudo-gui permite ver carátulas de audio y videos en ventana
 media = [ { run = 'mpv --player-operation-mode=pseudo-gui "$@"', orphan = true, desc = "MPV" } ]
+# Puedes cambiar 'zathura' por 'desktopeditors' si prefieres abrir PDFs en OnlyOffice
 pdf = [ { run = 'zathura "$@"', orphan = true, desc = "Zathura" } ]
+# Añadimos OnlyOffice
+office = [ { run = 'desktopeditors "$@"', orphan = true, desc = "OnlyOffice" } ]
 
 [open]
 rules = [
+    # Archivos de texto/código
     { url = "*.{sh,py,json,ts,tsx,js,lua,md,txt,conf}", use = "edit" },
+    
+    # --- IMÁGENES ---
     { mime = "image/*", use = "image" },
+    # Añadimos búsqueda por extensión por si falla el MIME
+    { url = "*.{jpg,jpeg,png,gif,webp,bmp,svg}", use = "image" },
+    
+    # --- MULTIMEDIA ---
     { mime = "video/*", use = "media" },
     { mime = "audio/*", use = "media" },
+    
+    # --- PDFs ---
     { mime = "application/pdf", use = "pdf" },
+    # Respaldo por extensión
+    { url = "*.pdf", use = "pdf" },
+    
+    # --- ONLYOFFICE (Documentos) ---
+    { url = "*.{doc,docx,xls,xlsx,ppt,pptx,odt,ods,odp}", use = "office" },
+    
+    # Regla por defecto (Todo lo demás se va a Neovim)
     { url = "*", use = "edit" }
 ]

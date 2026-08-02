@@ -11,13 +11,13 @@ Item {
     signal t
 
     // Forzamos un tamaño cuadrado/proporcionado como en AGS
-    implicitWidth: 76
+    implicitWidth: 70 // <-- MODIFICADO: Antes 76. Lo ajustamos para que entren 4 columnas cómodamente.
     implicitHeight: 64
 
     Rectangle {
         id: btnRect
         anchors.fill: parent
-        anchors.margins: 4 
+        anchors.margins: 2 // <-- MODIFICADO: Antes 4. Reducimos el margen interno para no perder tanta área de botón.
         radius: Theme.radiusMd
         
         color: root.on ?

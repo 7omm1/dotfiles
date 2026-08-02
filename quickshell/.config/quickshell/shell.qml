@@ -4,8 +4,7 @@ import "sidebar"
 import "osd"
 import "notifications"
 import "launcher"
-import "wallpapers" 
-import "windows"
+import "wallpapers"
 
 ShellRoot {
     Bar {}
@@ -14,6 +13,6 @@ ShellRoot {
     OSD {}
     NotificationPopups {}
     Launcher {}
-    WallpaperSelector {} 
-    ScreenBorder {}
+    WallpaperSelector {}
+    CalendarPopup {}
 }
